@@ -15,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -200,7 +201,14 @@ public class QuestMenuListener implements Listener {
                                  PLACE_BLOCK, BREAK_BLOCK, CONSUME_FOOD:
                                 p.sendMessage("§eAdding requirement. §7- §7Using your held item.");
                                 requirement.setType(QuestType.questTypeList.get(reqIndex));
-                                requirement.setItem(p.getInventory().getItemInMainHand());
+
+                                ItemStack item = p.getInventory().getItemInMainHand();
+                                if (item.getType() == Material.AIR) {
+                                    p.sendMessage("§cThe item cannot be nothing.");
+                                    return;
+                                }
+
+                                requirement.setItem(item);
                                 break;
                             case CHECK_BOX:
                                 p.sendMessage("§eAdding requirement. §7- §7Check box.");

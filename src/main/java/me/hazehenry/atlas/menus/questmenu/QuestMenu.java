@@ -136,6 +136,7 @@ public class QuestMenu implements InventoryHolder {
                     + ((quest.getRequirements().get(i).getType() != QuestType.CHECK_BOX)
                     ? ": §a" + extra(quest.getRequirements().get(i).getType(), quest, i) : ""));
         }
+
         list.add("");
         list.add("§6§lREWARDS");
         for (int i = 0; i < quest.getRewards().size(); i++) {
