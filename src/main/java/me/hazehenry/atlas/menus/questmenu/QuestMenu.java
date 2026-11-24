@@ -116,14 +116,37 @@ public class QuestMenu implements InventoryHolder {
 
         inventory.setItem(40, new ItemBuilder(Material.NETHERITE_INGOT)
                 .name(Messages.MENU_QUESTCREATE_SETID_NAME)
-                .lore(Messages.MENU_QUESTCREATE_SETID_LORE)
+                .lore(Messages.MENU_QUESTCREATE_SETID_LORE.stream()
+                        .map(line -> line.replace("%id%", quest.getId())).toList())
                 .build());
 
         inventory.setItem(42, new ItemBuilder(Material.EMERALD)
                 .name(Messages.MENU_QUESTCREATE_CONFIRMATION_NAME)
-                .lore(Messages.MENU_QUESTCREATE_CONFIRMATION_LORE)
+                .lore(buildConfirmationLore())
                 .build());
 
+    }
+
+    private List<String> buildConfirmationLore() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < Messages.MENU_QUESTCREATE_CONFIRMATION_LORE.size(); i++) {
+            list.add(expressionSwitch(Messages.MENU_QUESTCREATE_CONFIRMATION_LORE.get(i), quest) ? "True" : "False");
+        }
+
+        return list;
+    }
+
+    private boolean expressionSwitch(String entry, Quest quest) {
+        return switch (entry) {
+                    case "%state_name%" -> !quest.getName().equalsIgnoreCase("");
+                    case "%state_id%" -> !quest.getId().equalsIgnoreCase("");
+                    case "%state_desc%" -> !quest.getDescription().isEmpty();
+                    case "%state_material%" -> !quest.getMaterial().isAir();
+                    case "%state_reqs%" -> !quest.getRequirements().isEmpty();
+                    case "%state_rewards%" -> !quest.getRewards().isEmpty();
+                    case "%state_glowing%" -> quest.isGlowing();
+            default -> throw new IllegalStateException("Unexpected value: " + entry);
+        };
     }
 
     private List<String> previewDescription(Quest quest) {

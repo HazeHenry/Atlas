@@ -15,7 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Map;
 import java.util.Set;
 
-public final class Atlas extends JavaPlugin {
+public class Atlas extends JavaPlugin {
 
     @Getter
     public static Atlas instance;
