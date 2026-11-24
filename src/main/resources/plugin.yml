@@ -1,0 +1,10 @@
+name: Atlas
+description: $description
+version: '${version}'
+
+main: me.hazehenry.atlas.Atlas
+api-version: '26.1'
+
+authors: [ HazeHenry ]
+commands:
+  atlas:

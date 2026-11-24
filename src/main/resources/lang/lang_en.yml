@@ -1,0 +1,88 @@
+menu-title: "&6Atlas Main Menu"
+menu-close-item-name: "&cClose"
+menu-previous-item-name: "&6Previous"
+
+menu-overview-quests-item-name: "&aQuest Overview"
+menu-create-quest-item-name: "&eCreate New Quest"
+menu-delete-quest-item-name: "&cDelete Quests"
+
+menu-overview-chapters-item-name: "&aChapters Overview"
+menu-create-chapter-item-name: "&bCreate New Chapter"
+menu-delete-chapter-item-name: "&cDelete Chapters"
+
+quest-menu-title: "&6Create New Quest"
+
+menu-questcreate-rename:
+  name: "&eSet Quest Display Name"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&7Set the quest's display name."
+    - "&7All &acolor &7and &bhex &7codes are available."
+    - ""
+    - "&eClick to set display name."
+
+menu-questcreate-setlore-name: "&eSet Quest Description"
+
+menu-questcreate-addrequirement-name: "&6Add Quest Requirement"
+menu-questcreate-delrequirement-name: "&cRemove Quest Requirements"
+
+menu-questcreate-addreward-name: "&aAdd Quest Reward"
+menu-questcreate-delreward-name: "&cRemove Quest Reward"
+
+menu-questcreate-toggleglowing-name: "&dToggle Glowing"
+
+menu-questcreate-setmaterial:
+  name: "&6Set Quest Material"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&7Sets the quest material, modifying its appearance"
+    - "&7in the quest book. &aHold the item in your hand."
+    - ""
+    - "&eClick to change material."
+
+menu-questcreate-setid:
+  name: "&aSet Quest Id"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&7Current id: &3%id%"
+
+menu-questcreate-abandon:
+  name: "&cAbandon Quest Creation"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&cWarning, this will delete the current quest."
+    - "&7Multiple confirmations required."
+
+menu-questcreate-confirmation:
+  name: "&aConfirm Quest Addition"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&7The quest will be editable later."
+    - ""
+    - "&3&lPARAMETERS"
+    - "&7Name: &a%state_name%"
+    - "&7Id: &a%state_id%"
+    - "&7Description: &a%state_desc%"
+    - "&7Material: &a%state_material%"
+    - "&7Requirements: &a%state_reqs%"
+    - "&7Rewards: &a%state_rewards%"
+    - "&7Glowing: &a%state_glowing%"
+    - ""
+    - "&eClick to confirm."
+
+menu-main-item:
+  name: "&3Welcome to Atlas"
+  lore:
+    - "§8Atlas"
+    - ""
+    - "&7Atlas is an easy to use quest book interface"
+    - "&7Which supports full in-game chapter and quest editing"
+    - "&7with requirements, rewards and personalization."
+    - ""
+    - "&7All regular (&) color codes and hex codes work."
+    - "&7Preferred hex format: &a<#rrggbb> &7but others may work too."

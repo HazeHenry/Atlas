@@ -1,0 +1,91 @@
+
+menu-title: "&6Atlas főmenü"
+menu-close-item-name: "&cBezárás"
+menu-previous-item-name: "&6Előző"
+
+menu-overview-quests-item-name: "&aKüldetések áttekintése"
+menu-create-quest-item-name: "&eÚj küldetés létrehozása"
+menu-delete-quest-item-name: "&cKüldetések törlése"
+
+menu-overview-chapters-item-name: "&aFejezetek áttekintése"
+menu-create-chapter-item-name: "&bÚj fejezet létrehozása"
+menu-delete-chapter-item-name: "&cFejezetek törlése"
+
+quest-menu-title: "&6Új küldetés létrehozása"
+
+menu-questcreate-rename:
+  name: "&eKüldetés nevének beállítása"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&7Állítsd be a küldetés megjelenített nevét."
+    - "&7Minden &aszínkód &7és &bhexadecimális &7kód használható."
+    - ""
+    - "&eKattints a név beállításához."
+
+menu-questcreate-setlore-name: "&eKüldetés leírásának beállítása"
+
+menu-questcreate-addrequirement-name: "&6Küldetéskövetelmény hozzáadása"
+menu-questcreate-delrequirement-name: "&cKüldetéskövetelmények eltávolítása"
+
+menu-questcreate-addreward-name: "&aKüldetésjutalom hozzáadása"
+menu-questcreate-delreward-name: "&cKüldetésjutalom eltávolítása"
+
+menu-questcreate-toggleglowing-name: "&dFénylés be-/kikapcsolása"
+
+menu-questcreate-setmaterial:
+  name: "&6Küldetés ikonjának beállítása"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&7Beállítja a küldetés ikonját,"
+    - "&7megváltoztatva annak megjelenését a küldetéskönyvben."
+    - "&aTartsd a kívánt tárgyat a kezedben."
+    - ""
+    - "&eKattints az ikon módosításához."
+
+menu-questcreate-setid:
+  name: "&aKüldetésazonosító beállítása"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&7Jelenlegi azonosító: &3%id%"
+
+menu-questcreate-abandon:
+  name: "&cKüldetés létrehozásának megszakítása"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&cFigyelem! Ez törli az aktuális küldetést."
+    - "&7A művelet többszöri megerősítést igényel."
+
+menu-questcreate-confirmation:
+  name: "&aKüldetés hozzáadásának megerősítése"
+  lore:
+    - "&8Atlas"
+    - ""
+    - "&7A küldetés később is szerkeszthető lesz."
+    - ""
+    - "&3&lPARAMÉTEREK"
+    - "&7Név: &a%state_name%"
+    - "&7Azonosító: &a%state_id%"
+    - "&7Leírás: &a%state_desc%"
+    - "&7Ikon: &a%state_material%"
+    - "&7Követelmények: &a%state_reqs%"
+    - "&7Jutalmak: &a%state_rewards%"
+    - "&7Fénylés: &a%state_glowing%"
+    - ""
+    - "&eKattints a megerősítéshez."
+
+menu-main-item:
+  name: "&3Üdvözöl az Atlas!"
+  lore:
+    - "§8Atlas"
+    - ""
+    - "&7Az Atlas egy könnyen használható küldetéskönyv-felület,"
+    - "&7amely lehetővé teszi a fejezetek és küldetések teljes körű,"
+    - "&7játékon belüli szerkesztését követelményekkel,"
+    - "&7jutalmakkal és személyre szabási lehetőségekkel."
+    - ""
+    - "&7Minden hagyományos (&) színkód és hexadecimális kód használható."
+    - "&7Ajánlott hex formátum: &a<#rrggbb> &7(de más formátumok is működhetnek)."
