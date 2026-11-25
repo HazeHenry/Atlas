@@ -1,5 +1,6 @@
 package me.hazehenry.atlas.menus.questmenu;
 
+import me.hazehenry.atlas.Atlas;
 import me.hazehenry.atlas.function.QuestType;
 import me.hazehenry.atlas.function.helper.Quest;
 import me.hazehenry.atlas.managers.AtlasManager;
@@ -16,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class QuestMenu implements InventoryHolder {
@@ -24,12 +25,16 @@ public class QuestMenu implements InventoryHolder {
     private final Player player;
     private final Inventory inventory;
     private Quest quest;
+    int questNumber = Atlas.getInstance().getConfig().getInt("questnum");
 
     public QuestMenu(Player player) {
         this.player = player;
         this.inventory = Bukkit.createInventory(this, 5 * 9, Messages.QUEST_MENU_TITLE);
+
         if (quest == null) {
             quest = new Quest();
+
+            quest.setId("quest_" + (questNumber + 1));
 
             List<String> desc = new ArrayList<>();
             desc.add("&7This is a template quest.");
@@ -43,6 +48,8 @@ public class QuestMenu implements InventoryHolder {
             quest = AtlasManager.getEditingQuest().get(player.getUniqueId());
         } else {
             AtlasManager.getEditingQuest().put(player.getUniqueId(), quest);
+            Atlas.getInstance().getConfig().set("questnum", questNumber + 1);
+            Atlas.getInstance().saveConfig();
         }
 
         build();
@@ -122,31 +129,34 @@ public class QuestMenu implements InventoryHolder {
 
         inventory.setItem(42, new ItemBuilder(Material.EMERALD)
                 .name(Messages.MENU_QUESTCREATE_CONFIRMATION_NAME)
-                .lore(buildConfirmationLore())
+                .lore(buildConfirmationLore(quest))
                 .build());
 
     }
 
-    private List<String> buildConfirmationLore() {
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < Messages.MENU_QUESTCREATE_CONFIRMATION_LORE.size(); i++) {
-            list.add(expressionSwitch(Messages.MENU_QUESTCREATE_CONFIRMATION_LORE.get(i), quest) ? "True" : "False");
+    private List<String> buildConfirmationLore(Quest quest) {
+        List<String> list = Messages.MENU_QUESTCREATE_CONFIRMATION_LORE;
+
+        Map<String, Boolean> stateMap = Map.of(
+                "%state_name%", !quest.getName().equalsIgnoreCase(""),
+                "%state_id%", !quest.getId().equalsIgnoreCase(""),
+                "%state_desc%", !quest.getDescription().isEmpty(),
+                "%state_material%", !quest.getMaterial().isAir(),
+                "%state_reqs%", !quest.getRequirements().isEmpty(),
+                "%state_rewards%", !quest.getRewards().isEmpty(),
+                "%state_glowing%", quest.isGlowing()
+        );
+
+        for (int i = 0; i < list.size(); i++) {
+            String string = list.get(i);
+
+            for (String entry : stateMap.keySet()) {
+                string = string.replace(entry, stateMap.get(entry) ? "§aYes" : "§cNo");
+            }
+            list.set(i, string);
         }
 
         return list;
-    }
-
-    private boolean expressionSwitch(String entry, Quest quest) {
-        return switch (entry) {
-                    case "%state_name%" -> !quest.getName().equalsIgnoreCase("");
-                    case "%state_id%" -> !quest.getId().equalsIgnoreCase("");
-                    case "%state_desc%" -> !quest.getDescription().isEmpty();
-                    case "%state_material%" -> !quest.getMaterial().isAir();
-                    case "%state_reqs%" -> !quest.getRequirements().isEmpty();
-                    case "%state_rewards%" -> !quest.getRewards().isEmpty();
-                    case "%state_glowing%" -> quest.isGlowing();
-            default -> throw new IllegalStateException("Unexpected value: " + entry);
-        };
     }
 
     private List<String> previewDescription(Quest quest) {
@@ -246,9 +256,9 @@ public class QuestMenu implements InventoryHolder {
             for (int i = 0; i < quest.getRequirements().size(); i++) {
                 QuestType type = quest.getRequirements().get(i).getType();
                 if (selectedLine == i) {
-                    stringList.add(ChatUtils.process(" §E" + type + " " + extra(type, quest, i)));
+                    stringList.add(ChatUtils.process(" §E" + type + " §7" + extra(type, quest, i)));
                 } else {
-                    stringList.add(ChatUtils.process(" §7" + type + " " + extra(type, quest, i)));
+                    stringList.add(ChatUtils.process(" §7" + type + " §7" + extra(type, quest, i)));
                 }
             }
         } else {
@@ -265,8 +275,8 @@ public class QuestMenu implements InventoryHolder {
         return stringList;
     }
 
-    private String fancyConvert(QuestType type) {
-        return Arrays.stream(type.toString().toLowerCase().split("_"))
+    private String fancyConvert(Object entry) {
+        return Arrays.stream(entry.toString().toLowerCase().split("_"))
                 .map(k -> Character.toUpperCase(k.charAt(0)) + k.substring(1))
                 .collect(Collectors.joining(" "));
     }
@@ -276,8 +286,8 @@ public class QuestMenu implements InventoryHolder {
             case KILL_PLAYER -> String.valueOf(quest.getRequirements().get(i).getKills());
             case EARN_EXPERIENCE -> String.valueOf(quest.getRequirements().get(i).getXpLevels());
             case CRAFT_ITEM, DEPOSIT_ITEM, ACQUIRE_ITEM, CONSUME_FOOD ->
-                    quest.getRequirements().get(i).getItem().getItemMeta().getDisplayName();
-            case BREAK_BLOCK, PLACE_BLOCK -> String.valueOf(quest.getRequirements().get(i).getBlock());
+                    getItemName(quest.getRequirements().get(i).getItem()) + " x" + quest.getRequirements().get(i).getItem().getAmount();
+            case BREAK_BLOCK, PLACE_BLOCK -> getItemName(quest.getRequirements().get(i).getBlock()) + " x" + quest.getRequirements().get(i).getBlock().getAmount();
             case COMPLETE_QUEST -> quest.getRequirements().get(i).getQuestId();
             case VISIT_LOCATION ->
                     quest.getRequirements().get(i).getLocation().getX() + "," + quest.getRequirements().get(i).getLocation().getY() + "," + quest.getRequirements().get(i).getLocation().getZ();
@@ -285,5 +295,18 @@ public class QuestMenu implements InventoryHolder {
             default -> "";
         };
 
+    }
+
+    private String getItemName(ItemStack item) {
+        if (item == null) return "Error 105: Missing String";
+        String name;
+
+        if (!item.getItemMeta().getDisplayName().isEmpty()) {
+            name = item.getItemMeta().getDisplayName();
+        } else {
+            name = fancyConvert(item.getType().name());
+        }
+
+        return name;
     }
 }

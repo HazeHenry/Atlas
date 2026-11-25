@@ -32,5 +32,5 @@ public class Requirement {
     private int xpLevels;
 
     @Nullable
-    private Material block;
+    private ItemStack block;
 }

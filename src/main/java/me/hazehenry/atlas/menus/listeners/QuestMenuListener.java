@@ -198,7 +198,7 @@ public class QuestMenuListener implements Listener {
 
                         switch (QuestType.questTypeList.get(reqIndex)) {
                             case CRAFT_ITEM, DEPOSIT_ITEM, ACQUIRE_ITEM,
-                                 PLACE_BLOCK, BREAK_BLOCK, CONSUME_FOOD:
+                                 CONSUME_FOOD:
                                 p.sendMessage("§eAdding requirement. §7- §7Using your held item.");
                                 requirement.setType(QuestType.questTypeList.get(reqIndex));
 
@@ -210,6 +210,18 @@ public class QuestMenuListener implements Listener {
 
                                 requirement.setItem(item);
                                 break;
+                            case PLACE_BLOCK, BREAK_BLOCK:
+                                p.sendMessage("§eAdding requirement. §7- §7Using your held block.");
+                                requirement.setType(QuestType.questTypeList.get(reqIndex));
+                                ItemStack block = p.getInventory().getItemInMainHand();
+
+                                if (!block.getType().isBlock()) {
+                                    p.sendMessage("§cThe item must be a block.");
+                                    return;
+                                }
+
+                                requirement.setBlock(block);
+                                break;
                             case CHECK_BOX:
                                 p.sendMessage("§eAdding requirement. §7- §7Check box.");
                                 requirement.setType(QuestType.questTypeList.get(reqIndex));
@@ -218,6 +230,8 @@ public class QuestMenuListener implements Listener {
                         }
 
                         quest.addRequirement(requirement);
+                        AtlasManager.getEditingQuest().put(p.getUniqueId(), quest);
+                        new QuestMenu(p).open();
                         return;
                     }
 
